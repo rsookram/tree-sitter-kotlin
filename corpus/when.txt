@@ -1,0 +1,59 @@
+==================
+Expression
+==================
+
+when(a) {
+	"a" -> 1
+	else -> 2
+}
+
+---
+
+(source_file
+	(when_expression
+		(when_subject (simple_identifier))
+		(when_entry (when_condition (line_string_literal)) (control_structure_body (integer_literal)))
+		(when_entry (control_structure_body (integer_literal)))))
+
+==================
+Type test
+==================
+
+when (x) {
+    is Int -> 2
+    is String -> 1
+    is IntArray -> 2
+}
+
+---
+
+(source_file
+	(when_expression
+		(when_subject (simple_identifier))
+		(when_entry
+			(when_condition (type_test (simple_identifier))) (control_structure_body (integer_literal)))
+		(when_entry
+			(when_condition (type_test (simple_identifier))) (control_structure_body (integer_literal)))
+		(when_entry
+			(when_condition (type_test (simple_identifier))) (control_structure_body (integer_literal)))))
+
+==================
+Range test
+==================
+
+when (a) {
+	in 1..10 -> 1
+	in 10..100 -> 2
+}
+
+---
+
+(source_file
+	(when_expression
+		(when_subject (simple_identifier))
+		(when_entry
+			(when_condition
+				(range_test (range_expression (integer_literal) (integer_literal)))) (control_structure_body (integer_literal)))
+		(when_entry
+			(when_condition
+				(range_test (range_expression (integer_literal) (integer_literal)))) (control_structure_body (integer_literal)))))
