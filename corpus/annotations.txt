@@ -13,6 +13,23 @@ class Empty
         (type_identifier)))
 
 ==================
+Annotations with arguments
+==================
+
+@JsonIgnoreProperties(ignoreUnknown = true)
+class Empty
+
+---
+(source_file
+	(class_declaration
+		(modifiers
+			(annotation
+				(constructor_invocation
+					(user_type (type_identifier))
+					(value_arguments (value_argument (simple_identifier) (boolean_literal))))))
+    (type_identifier)))
+
+==================
 Annotations with use-site-target
 ==================
 
