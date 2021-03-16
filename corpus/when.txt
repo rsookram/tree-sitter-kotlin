@@ -13,7 +13,7 @@ when(a) {
 	(when_expression
 		(when_subject (simple_identifier))
 		(when_entry (when_condition (line_string_literal)) (control_structure_body (integer_literal)))
-		(when_entry (control_structure_body (integer_literal)))))
+		(when_entry (when_entry_else) (control_structure_body (integer_literal)))))
 
 ==================
 Type test

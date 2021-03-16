@@ -71,3 +71,15 @@ fun answerToTheUltimateQuestionOfLifeTheUniverseAndEverything(): Int = 42
 		(user_type (type_identifier))
 		(function_body (integer_literal))))
 
+==================
+Functions with which returns Data Class
+==================
+
+fun getCar(): Car {
+	return Car(doors = 1)
+}
+
+---
+
+(source_file
+	(function_declaration (simple_identifier) (user_type (type_identifier)) (function_body (statements (jump_expression (call_expression (simple_identifier) (call_suffix (value_arguments (value_argument (simple_identifier) (integer_literal))))))))))

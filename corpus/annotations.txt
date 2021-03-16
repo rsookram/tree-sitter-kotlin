@@ -9,7 +9,7 @@ class Empty
 
 (source_file
 	(class_declaration
-        (modifiers (annotation (user_type (type_identifier))))
+        (modifiers (annotation (single_annotation (user_type (type_identifier)))))
         (type_identifier)))
 
 ==================
@@ -24,9 +24,10 @@ class Empty
 	(class_declaration
 		(modifiers
 			(annotation
+				(single_annotation
 				(constructor_invocation
 					(user_type (type_identifier))
-					(value_arguments (value_argument (simple_identifier) (boolean_literal))))))
+					(value_arguments (value_argument (simple_identifier) (boolean_literal)))))))
     (type_identifier)))
 
 ==================
@@ -41,7 +42,7 @@ class Empty(@field:Test val x: Boolean)
 	(class_declaration
         (type_identifier)
         (primary_constructor (class_parameter
-            (modifiers (annotation (use_site_target) (user_type (type_identifier))))
+            (modifiers (annotation (single_annotation (annotation_use_site_target) (user_type (type_identifier)))))
             (simple_identifier)
             (user_type (type_identifier))))))
 
@@ -56,5 +57,5 @@ var x: Int
 
 (source_file
     (property_declaration
-        (modifiers (annotation (use_site_target) (user_type (type_identifier)) (user_type (type_identifier))))
+        (modifiers (annotation (multi_annotation (annotation_use_site_target) (user_type (type_identifier)) (user_type (type_identifier)))))
         (variable_declaration (simple_identifier) (user_type (type_identifier)))))
