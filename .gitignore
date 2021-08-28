@@ -16,3 +16,7 @@ node_modules
 *.asm.js
 *.wasm
 *.wasm.mem
+
+# Rust
+Cargo.lock
+target/
