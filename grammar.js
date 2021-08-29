@@ -71,17 +71,17 @@ module.exports = grammar({
 		// Member access operator '::' conflicts with callable reference
 		[$._primary_expression, $.callable_reference],
 
-        // Possible interpretations:
-        // 1:  (jump_expression  'return'  •  _expression)
-        // 2:  (jump_expression  'return')  •  '['  …
+		// Possible interpretations:
+		// 1:  (jump_expression  'return'  •  _expression)
+		// 2:  (jump_expression  'return')  •  '['  …
 		[$.jump_expression],
 
-        // Possible interpretations:
-        //  1:  '@'  (_unescaped_annotation  user_type)  •  '('  …
-        //  2:  '@'  (constructor_invocation  user_type  •  value_arguments)
+		// Possible interpretations:
+		//  1:  '@'  (_unescaped_annotation  user_type)  •  '('  …
+		//  2:  '@'  (constructor_invocation  user_type  •  value_arguments)
 		[$.constructor_invocation, $._unescaped_annotation],
 
-        [$.super_expression],
+		[$.super_expression],
 		[$.catch_block]
 	],
 
@@ -123,10 +123,11 @@ module.exports = grammar({
 		import_header: $ => seq(
 			"import",
 			field("identifier", $.identifier,),
-			optional(choice(
-			            field("star", $.point_star),
-			            field("alias", $.import_alias)
-			        )
+			optional(
+				choice(
+					field("star", $.point_star),
+					field("alias", $.import_alias)
+				)
 			),
 			$._semi
 		),
@@ -134,8 +135,8 @@ module.exports = grammar({
 		point_star: $ => ".*",
 
 		import_alias: $ => seq(
-		    "as",
-		    field("alias", alias($.simple_identifier, $.type_identifier))
+			"as",
+			field("alias", alias($.simple_identifier, $.type_identifier))
 		),
 
 		top_level_object: $ => seq($._declaration, optional($._semis)),
@@ -170,7 +171,7 @@ module.exports = grammar({
 				field("delegation_specifiers", optional(seq(":", $._delegation_specifiers))),
 				optional($.type_constraints),
 				field("class_body", optional($.class_body))
-		    ),
+			),
 			seq(
 				optional($.modifiers),
 				"enum",
@@ -290,26 +291,26 @@ module.exports = grammar({
 			field("function_body", optional($.function_body))
 		)),
 
-        // TODO
+		// TODO
 		_receiver_types: $ => repeat1(
-		    seq(optional($.type_modifiers),
-		        choice(
-		            $.simple_identifier
-                ),
-                optional($.type_arguments),
-                ".")
+			seq(optional($.type_modifiers),
+				choice(
+					$.simple_identifier
+				),
+				optional($.type_arguments),
+				".")
 		),
 
 		function_body: $ => choice(
-		    $._block,
-		    seq("=", field("expression", $._expression))
+			$._block,
+			seq("=", field("expression", $._expression))
 		),
 
 		multi_variable_declaration: $ => seq(
-		    "(",
-		    sep1($.variable_declaration, ","),
-		    optional(","),
-		    ")"
+			"(",
+			sep1($.variable_declaration, ","),
+			optional(","),
+			")"
 		),
 
 		variable_declaration: $ => seq(
@@ -324,8 +325,8 @@ module.exports = grammar({
 			optional($.type_parameters),
 			// TODO: Receiver type
 			choice(
-			    field("variable_declaration", $.variable_declaration),
-			    field("multi_variable_declaration", $.multi_variable_declaration)
+				field("variable_declaration", $.variable_declaration),
+				field("multi_variable_declaration", $.multi_variable_declaration)
 			),
 			optional($.type_constraints),
 			optional(choice(
@@ -508,8 +509,8 @@ module.exports = grammar({
 		)),
 
 		control_structure_body: $ => choice(
-		    $._block,
-		    field("statement", $._statement)
+			$._block,
+			field("statement", $._statement)
 		),
 
 		_block: $ => prec(PREC.BLOCK, seq("{", field("block_statements", optional($.statements)), "}")),
@@ -525,8 +526,8 @@ module.exports = grammar({
 			"(",
 			repeat($.annotation),
 			choice(
-			    field("variable_declaration", $.variable_declaration),
-			    field("multi_variable_declaration", $.multi_variable_declaration)
+				field("variable_declaration", $.variable_declaration),
+				field("multi_variable_declaration", $.multi_variable_declaration)
 			),
 			"in",
 			field("collection", $._expression),
@@ -558,11 +559,11 @@ module.exports = grammar({
 		_semis: $ => /[\r\n]+/,
 
 		assignment: $ => choice(
-		    // TODO use more specific rule than `$._expression`
-		    prec.left(PREC.ASSIGNMENT, seq(
-		                    field("directly_assignable_expression", $.directly_assignable_expression),
-		                    "=",
-		                    field("expression", $._expression))),
+			// TODO use more specific rule than `$._expression`
+			prec.left(PREC.ASSIGNMENT, seq(
+				field("directly_assignable_expression", $.directly_assignable_expression),
+				"=",
+				field("expression", $._expression))),
 			prec.left(PREC.ASSIGNMENT, seq($.directly_assignable_expression, $._assignment_and_operator, $._expression)),
 
 		),
@@ -714,7 +715,7 @@ module.exports = grammar({
 			$.unsigned_literal
 		),
 
-		null_literal : $ => "null",
+		null_literal: $ => "null",
 
 		_string_literal: $ => choice(
 			$.line_string_literal,
@@ -863,10 +864,10 @@ module.exports = grammar({
 			$._block,
 			// it looks like that tree-sitter will `eat` these tokens
 			optional(repeat(choice(
-			    "\n",
-			    "\r",
-			    "\t",
-			    " "
+				"\n",
+				"\r",
+				"\t",
+				" "
 			)))
 		),
 
@@ -909,11 +910,12 @@ module.exports = grammar({
 
 		_member_access_operator: $ => choice(".", $._safe_nav, "::"),
 
-		_safe_nav: $ => "?.",      // TODO: '?' and '.' should actually be separate tokens
-		                           //       but produce an LR(1) conflict that way, however.
-		                           //       ('as' expression with '?' produces conflict). Also
-		                           //       does it seem to be very uncommon to write the safe
-		                           //       navigation operator 'split up' in Kotlin.
+		// TODO: '?' and '.' should actually be separate tokens
+		//       but produce an LR(1) conflict that way, however.
+		//       ('as' expression with '?' produces conflict). Also
+		//       does it seem to be very uncommon to write the safe
+		//       navigation operator 'split up' in Kotlin.
+		_safe_nav: $ => "?.",
 
 		directly_assignable_expression: $ => choice(
 			field("simple_identifier", $.simple_identifier),
@@ -927,10 +929,10 @@ module.exports = grammar({
 		// ==========
 
 		modifiers: $ => choice(
-		    $.annotation,
-		    repeat1($._modifier),
-		    seq($.annotation, repeat1($._modifier)),
-		    seq(repeat1($._modifier), $.annotation)
+			$.annotation,
+			repeat1($._modifier),
+			seq($.annotation, repeat1($._modifier)),
+			seq(repeat1($._modifier), $.annotation)
 		),
 
 		parameter_modifiers: $ => choice($.annotation, repeat1($.parameter_modifier)),
@@ -1022,31 +1024,31 @@ module.exports = grammar({
 		),
 
 		single_annotation: $ => choice(
-		    seq($.annotation_use_site_target, $._unescaped_annotation),
-		    seq("@", $._unescaped_annotation)
+			seq($.annotation_use_site_target, $._unescaped_annotation),
+			seq("@", $._unescaped_annotation)
 		),
 
 		multi_annotation: $ => choice(
-		    seq(
-		        $.annotation_use_site_target,
-		        "[",
-		        repeat1($._unescaped_annotation),
-		        "]"
-		    ),
-		    seq(
-		        "@",
-		        "[",
-		        repeat1($._unescaped_annotation),
-		        "]"
-		    )
+			seq(
+				$.annotation_use_site_target,
+				"[",
+				repeat1($._unescaped_annotation),
+				"]"
+			),
+			seq(
+				"@",
+				"[",
+				repeat1($._unescaped_annotation),
+				"]"
+			)
 		),
 
 		annotation_use_site_target: $ => seq(
-		    "@",
-		    choice(
-		        "field", "property", "get", "set", "receiver", "param", "setparam", "delegate"
-		    ),
-		    ":"
+			"@",
+			choice(
+				"field", "property", "get", "set", "receiver", "param", "setparam", "delegate"
+			),
+			":"
 		),
 
 		_unescaped_annotation: $ => choice(
