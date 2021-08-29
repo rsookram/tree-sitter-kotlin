@@ -26,7 +26,7 @@ The grammar is based on the [official language grammar](https://kotlinlang.org/d
 
 To (re-)compile the grammar, run:
 
->`yarn run generate src/grammar.json`
+>`yarn run generate`
 
 If the rust / node binding need to be regenerated, delete them before running the `generate` command:
 
