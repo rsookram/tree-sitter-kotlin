@@ -7793,10 +7793,21 @@
   {
     "type": "object_declaration",
     "named": true,
-    "fields": {},
+    "fields": {
+      "identifier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "type_identifier",
+            "named": true
+          }
+        ]
+      }
+    },
     "children": {
       "multiple": true,
-      "required": true,
+      "required": false,
       "types": [
         {
           "type": "class_body",
@@ -7808,10 +7819,6 @@
         },
         {
           "type": "modifiers",
-          "named": true
-        },
-        {
-          "type": "type_identifier",
           "named": true
         }
       ]

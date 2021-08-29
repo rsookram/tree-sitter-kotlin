@@ -1954,13 +1954,17 @@
             "value": "object"
           },
           {
-            "type": "ALIAS",
+            "type": "FIELD",
+            "name": "identifier",
             "content": {
-              "type": "SYMBOL",
-              "name": "simple_identifier"
-            },
-            "named": true,
-            "value": "type_identifier"
+              "type": "ALIAS",
+              "content": {
+                "type": "SYMBOL",
+                "name": "simple_identifier"
+              },
+              "named": true,
+              "value": "type_identifier"
+            }
           },
           {
             "type": "CHOICE",

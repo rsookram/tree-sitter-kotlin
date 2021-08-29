@@ -378,7 +378,7 @@ module.exports = grammar({
 		object_declaration: $ => prec.right(seq(
 			optional($.modifiers),
 			"object",
-			alias($.simple_identifier, $.type_identifier),
+			field("identifier", alias($.simple_identifier, $.type_identifier)),
 			optional(seq(":", $._delegation_specifiers)),
 			optional($.class_body)
 		)),
